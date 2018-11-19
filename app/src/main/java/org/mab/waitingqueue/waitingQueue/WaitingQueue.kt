@@ -1,14 +1,20 @@
 package org.mab.waitingqueue
 
+import android.os.Handler
+import android.util.Log
 import java.util.*
 
 
 /**
  * Created by Mirza Ahmed Baig on 17/11/18.
+ *
  * Avantari Technologies
  * mirza@avantari.org
  */
 class WaitingQueue : DataACEListener {
+    private val TAG = WaitingQueue::class.java.simpleName
+
+
     companion object {
         val SUCCESS = 1
         val FAILED = 0
@@ -26,9 +32,8 @@ class WaitingQueue : DataACEListener {
     }
 
     private fun sendData() {
-        if(dataList.isNotEmpty()) {
-            currentObject = dataList.remove()
-            //broadcast current object and wait till response
+        if (dataList.isNotEmpty()) {
+            currentObject = dataList.element()
             waitingQueueListener?.onSendDataRequest(currentObject!!)
         }
     }
@@ -37,10 +42,13 @@ class WaitingQueue : DataACEListener {
     override fun onACKReceived(statusCode: Int) {
         when (statusCode) {
             SUCCESS -> {
+                dataList.poll()
                 sendData()
             }
             FAILED -> {
-                waitingQueueListener?.onSendDataRequest(currentObject!!)
+                Handler().postDelayed({
+                    waitingQueueListener?.onSendDataRequest(currentObject!!)
+                }, 1000)
             }
         }
 
