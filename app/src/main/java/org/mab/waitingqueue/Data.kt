@@ -1,5 +1,7 @@
 package org.mab.waitingqueue
 
+import org.mab.waitingqueue.waitingQueue.QueueData
+
 
 /**
  * Created by Mirza Ahmed Baig on 17/11/18.

@@ -1,4 +1,4 @@
-package org.mab.waitingqueue
+package org.mab.waitingqueue.waitingQueue
 
 
 /**
