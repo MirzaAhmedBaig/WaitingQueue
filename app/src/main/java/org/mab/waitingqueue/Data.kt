@@ -1,6 +1,7 @@
 package org.mab.waitingqueue
 
 import org.mab.waitingqueue.waitingQueue.QueueData
+import org.mab.waitingqueue.waitingQueue.TypeConstants
 
 
 /**
@@ -8,14 +9,9 @@ import org.mab.waitingqueue.waitingQueue.QueueData
  * Avantari Technologies
  * mirza@avantari.org
  */
-class Data : QueueData<Int> {
-    private var data = 0
-    override fun setData(data: Int) {
-        this.data = data
-    }
-
-    override fun getData(): Int {
-        return data
+data class Data(val data: Int) : QueueData {
+    override fun getType(): String {
+        return TypeConstants.INT_TYPE
     }
 }
 

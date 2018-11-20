@@ -12,7 +12,7 @@ import org.mab.waitingqueue.waitingQueue.WaitingQueueListener
 import java.util.*
 
 class MainActivity : AppCompatActivity(), WaitingQueueListener {
-    override fun onSendDataRequest(data: QueueData<Int>) {
+    override fun onSendDataRequest(data: QueueData) {
         waitingQueue.broadCastIntent = if (dataBuffer.size == max) {
             Intent(WaitingQueue.ACK_BROADCAST).apply {
                 putExtra(WaitingQueue.STATUS_CODE, WaitingQueue.FAILED)
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity(), WaitingQueueListener {
     }
 
     private val TAG = MainActivity::class.java.simpleName
-    private val dataBuffer: Queue<QueueData<Int>> = LinkedList()
+    private val dataBuffer: Queue<QueueData> = LinkedList()
     private val max = 5
 
     private val waitingQueue by lazy {
@@ -40,9 +40,7 @@ class MainActivity : AppCompatActivity(), WaitingQueueListener {
         waitingQueue.subscribeListener(this@MainActivity)
         printingHandler.postDelayed(printingRunnable, 200)
         submit.setOnClickListener {
-            val data = Data()
-            data.setData(counter)
-            waitingQueue.submitData(data)
+            waitingQueue.submitData(Data(counter))
             counter++
         }
     }
@@ -62,7 +60,8 @@ class MainActivity : AppCompatActivity(), WaitingQueueListener {
     private val printingRunnable = object : Runnable {
         override fun run() {
             if (dataBuffer.size != 0) {
-                Log.d(TAG, "Data sent Successfully : ${dataBuffer.poll().getData()}")
+                val data: Data = dataBuffer.poll() as Data
+                Log.d(TAG, "Data sent Successfully : ${data.data}")
             }
             printingHandler.postDelayed(this, 1000)
         }

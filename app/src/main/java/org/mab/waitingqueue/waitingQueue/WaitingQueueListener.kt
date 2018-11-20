@@ -7,5 +7,5 @@ package org.mab.waitingqueue.waitingQueue
  * mirza@avantari.org
  */
 interface WaitingQueueListener {
-    fun onSendDataRequest(data: QueueData<Int>)
+    fun onSendDataRequest(data: QueueData)
 }

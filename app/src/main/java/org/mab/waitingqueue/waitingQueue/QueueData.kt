@@ -6,7 +6,7 @@ package org.mab.waitingqueue.waitingQueue
  * Avantari Technologies
  * mirza@avantari.org
  */
-interface QueueData<E> {
-    fun getData(): E
-    fun setData(data: E)
+interface QueueData {
+    fun getType(): String
 }
+

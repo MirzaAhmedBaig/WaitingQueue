@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.os.Handler
 import android.support.v4.content.LocalBroadcastManager
 import android.util.Log
+import java.lang.reflect.Type
 import java.util.*
 import kotlin.properties.Delegates
 
@@ -28,11 +29,11 @@ class WaitingQueue(val baseContext: Context) {
         var ACK_BROADCAST = "org.mab.waitingqueue.waitingQueue.ack_broadcast"
     }
 
-    private var currentObject: QueueData<Int>? = null
-    private val dataList: Queue<QueueData<Int>> = LinkedList()
+    private var currentObject: QueueData? = null
+    private val dataList: Queue<QueueData> = LinkedList()
     private var waitingQueueListener: WaitingQueueListener? = null
 
-    fun submitData(data: QueueData<Int>) {
+    fun submitData(data: QueueData) {
         dataList.add(data)
         if (dataList.size == 1) {
             sendData()
